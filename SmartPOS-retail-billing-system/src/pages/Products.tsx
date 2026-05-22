@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function Products() {
   const [productList, setProductList] = useState([]);
   const [form, setForm] = useState({ name: "", price: "", stock: "" });
+  const stockValue = Number(form.stock);
 
   //handle input
   const handleChange = (e) => {
@@ -10,12 +11,16 @@ export default function Products() {
   };
 
   //handle add product
-  const addProduct = (e) => {
-    if (!form.name || !form.price) return alert("fill all feilds");
+  const addProduct = () => {
+    if (!form.name || !form.price) {
+      return alert("fill all feilds");
+    } else if (stockValue <= 0 || form.stock == "") {
+      return alert("Product is out of stock !");
+    }
     const newProduct = {
       id: Date.now(),
       name: form.name,
-      product: Number(form.price),
+      price: Number(form.price),
       stock: Number(form.stock)
     };
     setProductList([...productList, newProduct]);
@@ -25,7 +30,7 @@ export default function Products() {
   console.log(productList, form);
   return (
     <>
-      <div className=" grid grid-col-1 justify-center items-center">
+      <div className="grid grid-cols-1 justify-center items-center">
         <p>PRODUCTS</p>
         <input
           type="text"
@@ -43,13 +48,36 @@ export default function Products() {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="number"
           name="stock"
           placeholder="STOCK"
           value={form.stock}
           onChange={handleChange}
         />
         <button onClick={addProduct}>Add Product</button>
+      </div>
+      <div className="grid m-10 p-10">
+        <table className="">
+          <caption>Bill</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productList.map((product) => (
+              <div key={product.id}>
+                <tr>
+                  <td>{product.name}</td>
+                  <td> {product.price}</td>
+                  <td> {product.stock}</td>
+                </tr>
+              </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );
