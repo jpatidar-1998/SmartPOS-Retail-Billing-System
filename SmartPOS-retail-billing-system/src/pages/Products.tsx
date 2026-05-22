@@ -57,7 +57,7 @@ export default function Products() {
         <button onClick={addProduct}>Add Product</button>
       </div>
       <div className="grid m-10 p-10">
-        <table className="">
+        <table className="m-10">
           <caption>Bill</caption>
           <thead>
             <tr>
