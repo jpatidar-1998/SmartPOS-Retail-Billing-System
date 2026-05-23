@@ -14,18 +14,21 @@ export default function Products() {
   const addProduct = () => {
     if (!form.name || !form.price) {
       return alert("fill all feilds");
-    } else if (stockValue <= 0 || form.stock == "") {
+    } else if (stockValue <= 0) {
       return alert("Product is out of stock !");
     }
     const newProduct = {
       id: Date.now(),
-      name: form.name,
+      name: form.name.trim(),
       price: Number(form.price),
       stock: Number(form.stock)
     };
     setProductList([...productList, newProduct]);
     setForm({ name: "", price: "", stock: "" });
   };
+
+  //handle Delete ProductList
+  const handleDelete = () => {};
 
   console.log(productList, form);
   return (
@@ -56,25 +59,36 @@ export default function Products() {
         />
         <button onClick={addProduct}>Add Product</button>
       </div>
-      <div className="grid m-10 p-10">
-        <table className="m-10">
-          <caption>Bill</caption>
+      <div className="px-3 py-4 flex justify-center">
+        <table className="w-full text-md bg-white shadow-md rounded mb-4">
+          <caption className="font-bold ">Product inventory</caption>
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>stock</th>
+            <tr className="border-b">
+              <th className="text-left p-3 px-5">Name</th>
+              <th className="text-left p-3 px-5">Price</th>
+              <th className="text-left p-3 px-5">stock</th>
+              <th className="text-left p-3 px-5">Action</th>
             </tr>
           </thead>
           <tbody>
             {productList.map((product) => (
-              <div key={product.id}>
-                <tr>
-                  <td>{product.name}</td>
-                  <td> {product.price}</td>
-                  <td> {product.stock}</td>
-                </tr>
-              </div>
+              <tr
+                key={product.id}
+                className="border-b hover:bg-gray-200 bg-gray-100"
+              >
+                <td className="p-3 px-5">{product.name}</td>
+                <td className="p-3 px-5"> {product.price}</td>
+                <td className="p-3 px-5"> {product.stock}</td>
+                <td className="p-3 px-5 flex">
+                  <button
+                    type="button"
+                    className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
