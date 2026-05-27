@@ -6,11 +6,13 @@ function ProductTable({ productList, setProductList }) {
   };
 
   return (
-    <div className="px-3 py-4 flex justify-center">
+    <div className="px-3 py-8 flex justify-center ">
       {productList.length !== 0 ? (
         <table className="w-full text-md bg-white shadow-md rounded mb-4">
-          <caption className="font-bold ">Product inventory</caption>
-          <thead>
+          <caption className="font-bold text-2xl text-emerald-950">
+            Product inventory
+          </caption>
+          <thead className=" pt-6">
             <tr className="border-b">
               <th className="text-left p-3 px-5">Name</th>
               <th className="text-left p-3 px-5">Price</th>
