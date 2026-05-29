@@ -32,7 +32,7 @@ function ProductForm({ prodForm, setProdForm, setProductList, productList }) {
         <h2 className="text-2xl font-bold text-gray-800 mb-12 pb-2">
           ADD PRODUCTS FORM
         </h2>
-        <form className="flex flex-col">
+        <form className="flex flex-col mt-4">
           <input
             type="text"
             name="name"
