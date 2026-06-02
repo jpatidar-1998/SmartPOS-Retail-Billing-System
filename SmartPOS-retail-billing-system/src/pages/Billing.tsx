@@ -7,27 +7,44 @@ export default function Billing() {
       name: "Rice",
       price: 88,
       quantity: 2
+    },
+    {
+      id: 2,
+      name: "Wheat",
+      price: 99,
+      quantity: 1
     }
   ]);
 
   const handleIncrease = (id) => {
-    let x;
-    cartItems.map((item) => {
-      if (id === item.id) {
-        x = item.quantity + 1;
-        setCartItems(x);
+    const updatedItems = cartItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          quantity: item.quantity >= 1 ? item.quantity + 1 : item.quantity
+        };
       }
+      return item;
     });
+    setCartItems(updatedItems);
   };
 
   const handleDecrease = (id) => {
-    let x;
-    cartItems.map((item) => {
-      if (id === item.id) {
-        x = item.quantity - 1;
-        setCartItems(x);
+    const updatedItems = cartItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          quantity: item.quantity > 1 ? item.quantity - 1 : item.quantity
+        };
       }
+      return item;
     });
+
+    setCartItems(updatedItems);
+  };
+  const handleRemove = (id) => {
+    const newList = cartItems.filter((product) => product.id !== id);
+    setCartItems(newList);
   };
 
   return (
@@ -68,7 +85,10 @@ export default function Billing() {
               <td>{item.price}</td>
               <td>{item.price * item.quantity}</td>
               <td>
-                <button className="my-2 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">
+                <button
+                  onClick={() => handleRemove(item.id)}
+                  className="my-2 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                >
                   Remove
                 </button>
               </td>
