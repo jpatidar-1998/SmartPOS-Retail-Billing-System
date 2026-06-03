@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ProductForm from "../components/productForm";
 import ProductTable from "../components/productTable";
+import { ProductContext } from "../context/ProductContext";
 
 export default function Products() {
-  const [productList, setProductList] = useState(
-    JSON.parse(localStorage.getItem("productList")) || []
-  );
+  const { productList, setProductList } = useContext(ProductContext);
+
   const [prodForm, setProdForm] = useState<object>({
     name: "",
     price: "",
     stock: ""
   });
 
-  useEffect(() => {
-    localStorage.setItem("productList", JSON.stringify(productList));
-  }, [productList]);
-  console.log(productList, prodForm);
   return (
     <>
       <ProductForm
