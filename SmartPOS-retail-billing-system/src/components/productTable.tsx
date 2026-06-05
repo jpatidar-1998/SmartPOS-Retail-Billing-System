@@ -1,9 +1,21 @@
+import { useContext } from "react";
+import type { Product } from "../types/products";
+import { ProductContext } from "../context/ProductContext";
 
 function ProductTable({ productList, setProductList }) {
+  const { cartItems } = useContext(ProductContext);
+
   //handle Delete ProductList
   const handleDelete = (id) => {
     const newList = productList.filter((product) => product.id !== id);
     setProductList(newList);
+  };
+
+  //handle Add to cart button
+  const handleAddToCart = (product: Product) => {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+
+    console.log(existingItem);
   };
 
   return (
@@ -19,6 +31,7 @@ function ProductTable({ productList, setProductList }) {
               <th className="text-left p-3 px-5">Price</th>
               <th className="text-left p-3 px-5">stock</th>
               <th className="text-left p-3 px-5">Action</th>
+              <th className="text-left p-3 px-5">Add to Cart</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +50,14 @@ function ProductTable({ productList, setProductList }) {
                     onClick={() => handleDelete(product.id)}
                   >
                     Delete
+                  </button>
+                </td>
+                <td>
+                  <button
+                  type="button"
+                  className="mr-3 text-sm bg-cyan-300 hover:bg-cyan-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => handleAddToCart(product)}>
+                    Add To Cart
                   </button>
                 </td>
               </tr>

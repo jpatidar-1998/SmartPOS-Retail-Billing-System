@@ -1,20 +1,8 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
 
 export default function Billing() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Rice",
-      price: 88,
-      quantity: 2
-    },
-    {
-      id: 2,
-      name: "Wheat",
-      price: 99,
-      quantity: 1
-    }
-  ]);
+  const { cartItems, setCartItems } = useContext(ProductContext);
 
   const handleIncrease = (id) => {
     const updatedItems = cartItems.map((item) => {
