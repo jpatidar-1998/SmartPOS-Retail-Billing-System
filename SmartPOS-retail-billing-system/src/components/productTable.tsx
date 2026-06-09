@@ -3,7 +3,7 @@ import type { Product } from "../types/products";
 import { ProductContext } from "../context/ProductContext";
 
 function ProductTable({ productList, setProductList }) {
-  const { cartItems } = useContext(ProductContext);
+  const { cartItems, setCartItems } = useContext(ProductContext);
 
   //handle Delete ProductList
   const handleDelete = (id) => {
@@ -11,11 +11,31 @@ function ProductTable({ productList, setProductList }) {
     setProductList(newList);
   };
 
-  //handle Add to cart button
   const handleAddToCart = (product: Product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
 
-    console.log(existingItem);
+    if (existingItem) {
+      const updatedItems = cartItems.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            quantity: item.quantity + 1
+          };
+        }
+
+        return item;
+      });
+
+      setCartItems(updatedItems);
+    } else {
+      setCartItems([
+        ...cartItems,
+        {
+          ...product,
+          quantity: 1
+        }
+      ]);
+    }
   };
 
   return (
@@ -54,9 +74,10 @@ function ProductTable({ productList, setProductList }) {
                 </td>
                 <td>
                   <button
-                  type="button"
-                  className="mr-3 text-sm bg-cyan-300 hover:bg-cyan-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                  onClick={() => handleAddToCart(product)}>
+                    type="button"
+                    className="mr-3 text-sm bg-cyan-300 hover:bg-cyan-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => handleAddToCart(product)}
+                  >
                     Add To Cart
                   </button>
                 </td>
