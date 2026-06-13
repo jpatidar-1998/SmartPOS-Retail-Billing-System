@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { ProductContext } from "../context/ProductContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Billing() {
+  const navigate = useNavigate();
   const context = useContext(ProductContext);
 
   if (!context) return null;
@@ -46,6 +47,25 @@ export default function Billing() {
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const handleFinalizeBill = () => {
+    const bill = {
+      id: Date.now(),
+      items: [...cartItems],
+      total: grandTotal,
+      date: new Date().toISOString()
+    };
+
+    const existingBills = JSON.parse(
+      localStorage.getItem("billHistory") || "[]"
+    );
+
+    existingBills.push(bill);
+
+    localStorage.setItem("billHistory", JSON.stringify(existingBills));
+    setCartItems([]);
+    navigate("/");
+  };
 
   return (
     <>
@@ -106,7 +126,10 @@ export default function Billing() {
           <div className="text-right">
             <h2 className="text-xl font-bold">Grand Total: ₹{grandTotal}</h2>
 
-            <button className="mt-3 bg-green-500 text-white px-4 py-2 rounded">
+            <button
+              onClick={() => handleFinalizeBill()}
+              className="mt-3 bg-green-500 text-white px-4 py-2 rounded"
+            >
               Finalize Bill
             </button>
           </div>

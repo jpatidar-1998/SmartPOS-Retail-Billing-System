@@ -50,6 +50,12 @@ function ProductTable({ productList, setProductList }) {
       >
         Go To Billing
       </button>
+      <button
+        className="w-60 mt-8 mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+        onClick={() => navigate("/billHistory")}
+      >
+        Go To Bill History
+      </button>
       <div className="px-3 py-8 flex justify-center ">
         {productList.length !== 0 ? (
           <table className="w-full text-md bg-white shadow-md rounded mb-4">
