@@ -15,10 +15,13 @@ function ProductTable({ productList, setProductList }) {
 
   const handleAddToCart = (product: Product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
-    console.log("Adding:", product);
-    console.log("Current cart:", cartItems);
 
     if (existingItem) {
+      if (existingItem.quantity >= product.stock) {
+        alert(`Only ${product.stock} items available`);
+        return;
+      }
+
       const updatedItems = cartItems.map((item) => {
         if (item.id === product.id) {
           return {
@@ -32,8 +35,12 @@ function ProductTable({ productList, setProductList }) {
 
       setCartItems(updatedItems);
     } else {
-      setCartItems([
-        ...cartItems,
+      if (product.stock <= 0) {
+        alert("Out of stock");
+        return;
+      }
+      setCartItems((prev) => [
+        ...prev,
         {
           ...product,
           quantity: 1
